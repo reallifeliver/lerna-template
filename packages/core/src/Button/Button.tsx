@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { printHello } from "@reallifeliver-lerna-test/theme";
+import { printHello } from "@lerna-setting-template/theme";
 
 interface Props {
 
