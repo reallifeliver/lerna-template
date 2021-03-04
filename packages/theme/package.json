@@ -1,0 +1,26 @@
+{
+  "name": "@lerna-setting-template/theme",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "",
+  "license": "ISC",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "rimraf -rf ./lib",
+    "rollup": "rollup -c rollup.config.js",
+    "tsc": "tsc",
+    "build": "yarn run clean && yarn run rollup",
+    "build-watch": "yarn run clean && yarn run rollup & tsc --watch"
+  },
+  "dependencies": {
+    "json-variables": "^8.2.18"
+  }
+}

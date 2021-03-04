@@ -1,0 +1,63 @@
+version: 0.2
+env:
+  git-credential-helper: yes
+  variables:
+    REGION: "us-east-1"
+    IMAGE_NAME: conekta-registry
+    REGISTRY: dkr.ecr.us-east-1.amazonaws.com
+    OUTPUT: json
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - echo Installing system packages
+      - npm install -g yarn
+      - echo Installing global dependencies
+      - yarn global add lerna
+
+      - echo current node version `node --version`
+      - echo current yarn version `yarn --version`
+      - echo current leran version `lerna --version`
+  pre_build:
+    commands:
+      - echo Bootstrap source code
+      - yarn install --frozen-lockfile
+      - echo Configure git
+      - git config --global user.email $GIT_USER_EMAIL
+      - git config --global user.name $GIT_USER_NAME
+
+      - git checkout $BRANCH_NAME
+      - echo Check git status
+      - git status
+      - echo Set git remote url with Token
+      - git remote set-url origin https://$GH_TOKEN@github.com/$GH_REPO
+      - git remote -v
+
+      - echo Confiure NPM
+      - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > ~/.npmrc
+      - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
+
+  build:
+    commands:
+
+      - echo Build started on `date`
+      - lerna run build
+      - yarn run build-storybook
+
+  post_build:
+    commands:
+      - |
+        if [ "${BRANCH_NAME}" = "master" ]; then
+          lerna publish --yes;
+        elif [ "${BRANCH_NAME}" = "release" ]; then
+          lerna publish --canary --preid next --pre-dist-tag next --yes;
+        fi
+      - echo Build completed on `date`
+      - echo Publish new version to NPM
+
+artifacts:
+  name: storybook-build
+  files:
+    - ./*
+  base-directory: ./storybook-static
