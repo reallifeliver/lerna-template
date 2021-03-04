@@ -6,14 +6,14 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "build-core": "yarn workspace @closet-design-system/core build-watch",
-    "build-theme": "yarn workspace @closet-design-system/theme build",
+    "build-core": "yarn workspace @lerna-setting-template/core build-watch",
+    "build-theme": "yarn workspace @lerna-setting-template/theme build",
     "build-storybook": "build-storybook  -s ./public --loglevel warn",
     "build-watch": "lerna run build-watch",
     "tsc": "lerna run tsc",
     "storybook": "lerna run build && start-storybook -p 6006 -s ./public ",
     "publish:dev": "lerna run build && lerna publish --canary --preid dev --dist-tag dev",
-    "test-core": "yarn workspace @closet-design-system/core test"
+    "test-core": "yarn workspace @lerna-setting-template/core test"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
